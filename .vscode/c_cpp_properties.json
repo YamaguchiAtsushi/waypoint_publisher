@@ -1,0 +1,25 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/opt/ros/noetic/include/**",
+        "/home/yamaguchi-a/catkin_ws/src/go_waypoint/include/**",
+        "/home/yamaguchi-a/catkin_ws/src/ndt_scan_matching/include/**",
+        "/home/yamaguchi-a/catkin_ws/src/sfm_for_gazebo/include/**",
+        "/home/yamaguchi-a/catkin_ws/src/ward_clustering/include/**",
+        "/home/yamaguchi-a/catkin_ws/src/waypoint_publisher/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
