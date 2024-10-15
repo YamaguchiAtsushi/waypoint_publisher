@@ -41,7 +41,7 @@ public:
         odom_sub_ = nh_.subscribe("/ypspur_ros/odom", 1000, &WaypointPublisher::odomCallback, this);
         twist_pub_ = nh_.advertise<geometry_msgs::Twist>("/ypspur_ros/cmd_vel", 1000);
         marker_pub_ = nh_.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-        waypoint_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("next_waypoint", 1);
+        waypoint_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("waypoint", 1);
 
         goal_reached_pub_ = nh_.advertise<std_msgs::Bool>("goal_reached", 10);
         goal_reached_sub_ = nh_.subscribe("goal_reached", 1000, &WaypointPublisher::goalReachedCallback, this);
@@ -128,15 +128,20 @@ public:
                     //     goal_reached_ = false;
                     //     waypoint_index_+= 1;
                     // }
+                    std::cout << "goal_reached" << goal_reached_ << std::endl;
 
-                if (goal_reached_) {
-                    goal_reached_ = false;
-                    waypoint_index_ += 1;
+                    if (goal_reached_) {
+                        std::cout << "goal_reached" << goal_reached_ << std::endl;
 
-                    // ウェイポイントのパブリッシュ
-                    geometry_msgs::PoseStamped current_goal = waypoints_[waypoint_index_];
-                    waypoint_pub_.publish(current_goal);
-                }
+                        // goal_reached_ = false;
+                        waypoint_index_ += 1;
+
+                        // ウェイポイントのパブリッシュ
+                        geometry_msgs::PoseStamped current_goal = waypoints_[waypoint_index_];
+                        waypoint_pub_.publish(current_goal);
+                        goal_reached_ = false;
+
+                    }
                     // std::cout << "goal_reached" << goal_reached_ << std::endl;
 
                     std_msgs::Bool goal_reached_msg;
@@ -150,9 +155,6 @@ public:
                     waypoint_pub_.publish(current_goal);
 
                     // std::cout << "goal_reached_:" << goal_reached_ << std::endl;
-
-                    // 現在のゴールを次のウェイポイントとしてpublish
-                    waypoint_pub_.publish(current_goal);
                 }
                 break;
             
