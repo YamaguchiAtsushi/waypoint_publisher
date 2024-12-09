@@ -288,7 +288,7 @@ private:
 
     }
 
-    void detect_obstacle(){
+    void detect_obstacle(){//calcAngleをつかって目的地との間にある障害物を検知するようにする！！！！！！！！！！！！！！！！！！！！！
         robot_speed_msg.data = 1.0;
 
         std::cout << "detect_obstacle called" << std::endl;
@@ -402,6 +402,31 @@ private:
             state_ = PUBLISH_NEXT_MAIN_WAYPOINT;
         }
 
+    }
+
+    double calcAngle(geometry_msgs::PoseStamped goal){
+        double theta = atan2(goal.pose.position.y - robot_odom_y_, goal.pose.position.x - robot_odom_x_);
+        while (theta <= -M_PI || M_PI <= theta)
+        {
+            if (theta <= -M_PI)
+                theta = theta + 2 * M_PI;
+            else
+                theta = theta - 2 * M_PI;
+        }
+
+        geometry_quat_to_rpy(roll, pitch, yaw, robot_r_);
+
+        while (yaw <= -M_PI || M_PI <= yaw)
+        {
+            if (yaw <= -M_PI)
+                yaw = yaw + 2 * M_PI;
+            else
+                yaw = yaw - 2 * M_PI;
+        }
+
+        theta = theta - yaw;
+        
+        return theta;
     }
 
     void geometry_quat_to_rpy(double &roll, double &pitch, double &yaw, geometry_msgs::Quaternion geometry_quat)

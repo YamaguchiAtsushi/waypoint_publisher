@@ -115,12 +115,24 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
+# add_executable(waypoint_publisher src/waypoint_publisher.cpp)
+
+# target_link_libraries(waypoint_publisher
+#   ${catkin_LIBRARIES}
+# )
+
+
+# add_executable(waypoint_publisher_test src/waypoint_publisher_test.cpp)
+
+# target_link_libraries(waypoint_publisher_test
+#   ${catkin_LIBRARIES}
+# )
+
 add_executable(waypoint_publisher src/waypoint_publisher.cpp)
 
 target_link_libraries(waypoint_publisher
   ${catkin_LIBRARIES}
 )
-
 
 ###########
 ## Build ##
