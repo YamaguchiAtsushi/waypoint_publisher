@@ -44,6 +44,8 @@ public:
         robot_r_.z = 0.0;
         robot_r_.w = 1.0;
 
+        waypoint_num_ = 0;
+
         readWaypointsFromCSV(csv_file);
         }
 
