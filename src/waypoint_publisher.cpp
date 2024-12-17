@@ -26,7 +26,7 @@ class WaypointPublisher
 {
 public:
     WaypointPublisher(){
-        marker_pub_ = nh_.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+        marker_pub_ = nh_.advertise<visualization_msgs::Marker>("visualization_marker", 100);
         main_waypoint_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("main_waypoint", 1);
         goal_reached_pub_ = nh_.advertise<std_msgs::Bool>("goal_reached", 1);
         
@@ -80,6 +80,7 @@ private:
 
     
     void publishWaypoint();
+    void publishWaypointsMarker();
     void timerCallback(const ros::TimerEvent&);
     void geometry_quat_to_rpy(double &roll, double &pitch, double &yaw, geometry_msgs::Quaternion geometry_quat);
     void waypointNumCallback(const std_msgs::Int16::ConstPtr& msg);
@@ -89,8 +90,41 @@ private:
 
 };
 
+    void WaypointPublisher::publishWaypointsMarker() {
+        visualization_msgs::Marker marker;
+        marker.header.frame_id = "map";
+        marker.header.stamp = ros::Time::now();
+        marker.ns = "waypoints";
+        marker.id = 0;
+        marker.type = visualization_msgs::Marker::POINTS;
+        marker.action = visualization_msgs::Marker::ADD;
+
+        marker.pose.orientation.w = 1.0;
+        marker.scale.x = 0.5;
+        marker.scale.y = 0.5;
+        marker.color.r = 1.0;
+        marker.color.g = 0.0;
+        marker.color.b = 0.0;
+        marker.color.a = 1.0;
+        // マーカーの寿命を設定（0にすると消えません）
+        marker.lifetime = ros::Duration(0);
+
+    
+
+        for (const auto& waypoint : waypoints_) {
+            geometry_msgs::Point p;
+            p.x = waypoint.pose.position.x;
+            p.y = waypoint.pose.position.y;
+            p.z = waypoint.pose.position.z;
+            marker.points.push_back(p);
+        }
+
+        marker_pub_.publish(marker);
+    }
+
     void WaypointPublisher::timerCallback(const ros::TimerEvent& event) {
         publishWaypoint();
+        publishWaypointsMarker();
             // std::cout << "goal_reached" << goal_reached_ << std::endl;
 
     }
