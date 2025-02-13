@@ -76,7 +76,9 @@ private:
     int waypoint_num_;
 
     // std::string csv_file = "/home/yamaguchi-a/catkin_ws/src/waypoint_publisher/csv/waypoint_odom.csv";
-    std::string csv_file = "/home/yamaguchi-a/catkin_ws/src/waypoint_publisher/csv/waypoints.csv";
+    // std::string csv_file = "/home/yamaguchi-a/catkin_ws/src/waypoint_publisher/csv/waypoints.csv";
+    std::string csv_file = "/home/yamaguchi-a/catkin_ws/src/waypoint_publisher/csv/pass_line_test.csv";
+
 
     
     void publishWaypoint();
